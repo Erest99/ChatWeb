@@ -2,6 +2,18 @@ const searchBar = document.querySelector(".search input"),      //vyhledávací 
 searchIcon = document.querySelector(".search button"),          //tlačítko vyhledávání
 usersList = document.querySelector(".users-list");              //předem připravená oblast pro dynamické vložení userů
 
+let targetUrl;
+let links = document.querySelectorAll(".users-list");
+console.log(links);
+
+for (let link of links) {
+  link.addEventListener("click", function(e) {
+    targetUrl = "set";
+  });
+}
+
+
+
 searchIcon.onclick = ()=>{                                      //přepínání vyhledávače (ikona + hledání)
   searchBar.classList.toggle("show");
   searchIcon.classList.toggle("active");
@@ -48,4 +60,22 @@ setInterval(() =>{                                               //každých 500
   }
   xhr.send();
 }, 500);
+
+
+window.addEventListener("beforeunload", function(e) {      
+  console.log("target:");
+  console.log(targetUrl);  // Outputs the URL of the page the user 
+  if(targetUrl==null)
+  {
+    console.log("logout");
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "php/logout.php", true);
+    xhr.send();
+  }
+  else
+  {
+    console.log("dont logout!");
+  }
+});
+
 
